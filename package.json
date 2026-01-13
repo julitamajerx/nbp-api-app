@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "pretty-quick": "pretty-quick --staged",
     "lint": "ng lint"
   },
   "prettier": {
@@ -51,6 +52,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "prettier": "^3.7.4",
+    "pretty-quick": "^4.2.2",
     "typescript": "~5.9.2",
     "typescript-eslint": "8.46.4"
   }
