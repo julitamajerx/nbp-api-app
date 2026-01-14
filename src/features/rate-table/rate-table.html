@@ -1,0 +1,44 @@
+<h2>Tabela nr {{ tableNo }} z dnia {{ tableDate | date: 'dd.MM.yyyy' }}</h2>
+<form class="search-form">
+  <mat-form-field class="example-full-width">
+    <mat-label>Wyszukaj walutę (nazwa lub kod)</mat-label>
+    <input matInput type="search" (keyup)="applyFilters($event)" placeholder="np. USD" #input />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="currency">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nazwa waluty</th>
+        <td mat-cell *matCellDef="let element">{{ element.currency }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Kod waluty</th>
+        <td mat-cell *matCellDef="let element">{{ element.code }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="mid">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Kurs średni</th>
+        <td mat-cell *matCellDef="let element">
+          @if (element.mid) {
+            {{ element.mid | currency: 'PLN ' : 'symbol' : '1.4-4' }}
+          } @else if (element.bid && element.ask) {
+            {{ (element.bid + element.ask) / 2 | currency: 'PLN ' : 'symbol' : '1.4-4' }}
+          }
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      [pageSize]="10"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+</form>
