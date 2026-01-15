@@ -17,11 +17,13 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { RateDialog } from '../rate-dialog/rate-dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-rate-table',
@@ -34,7 +36,9 @@ import { RateDialog } from '../rate-dialog/rate-dialog';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIcon,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
   ],
   templateUrl: './rate-table.html',
   styleUrl: './rate-table.css',
@@ -47,6 +51,7 @@ export class RateTable implements AfterViewInit, OnInit {
   protected dataSource = new MatTableDataSource<Rate>();
   protected tableNo!: string;
   protected tableDate!: string;
+  protected isTableEmpty = false;
 
   private tableService = inject(TableService);
   private route = inject(ActivatedRoute);
@@ -76,14 +81,21 @@ export class RateTable implements AfterViewInit, OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  protected applyFilters(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+  protected applyFilters(event: Event | string) {
+    const filterValue =
+      typeof event === 'string' ? event : (event.target as HTMLInputElement).value;
 
     this.dataSource.filter = filterValue.trim().toUpperCase();
+    this.isTableEmpty = this.dataSource.filteredData.length === 0;
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  protected resetSearch() {
+    this.applyFilters('');
+    this.isTableEmpty = false;
   }
 
   protected openHistory(rate: Rate) {

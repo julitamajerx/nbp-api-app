@@ -16,3 +16,10 @@ table {
 .clickable-row:hover {
   background-color: #b0d1cf;
 }
+
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}

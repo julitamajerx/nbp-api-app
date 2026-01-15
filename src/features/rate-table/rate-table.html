@@ -38,6 +38,19 @@
       ></tr>
     </table>
 
+    @if (isTableEmpty) {
+      <div class="empty-state">
+        <mat-icon>search_off</mat-icon>
+        <p>
+          Nie znaleziono waluty dla frazy: "<strong>{{ input.value }}</strong
+          >"
+        </p>
+        <button matButton="filled" (click)="input.value = ''; resetSearch()">
+          Wyczyść wyszukiwanie
+        </button>
+      </div>
+    }
+
     <mat-paginator
       [pageSizeOptions]="[5, 10, 20]"
       [pageSize]="10"

@@ -9,9 +9,14 @@
     <div class="history-list">
       @for (rate of history.rates; track rate.effectiveDate) {
         <div class="rate-row">
-          <span class="date"><strong>{{ rate.effectiveDate | date: 'dd.MM.yyyy' }}</strong></span>
+          <span class="date"
+            ><strong>{{ rate.effectiveDate | date: 'dd.MM.yyyy' }}</strong></span
+          >
           <span class="value">
-            {{ (rate.mid ?? (rate.bid && rate.ask ? (rate.bid + rate.ask) / 2 : 0)) | currency:'PLN ':'symbol':'1.4-4' }}
+            {{
+              rate.mid ?? (rate.bid && rate.ask ? (rate.bid + rate.ask) / 2 : 0)
+                | currency: 'PLN ' : 'symbol' : '1.4-4'
+            }}
           </span>
         </div>
       }
