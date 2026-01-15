@@ -20,6 +20,8 @@ import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatDialog } from '@angular/material/dialog';
+import { RateDialog } from '../rate-dialog/rate-dialog';
 
 @Component({
   selector: 'app-rate-table',
@@ -49,6 +51,7 @@ export class RateTable implements AfterViewInit, OnInit {
   private tableService = inject(TableService);
   private route = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
+  private dialog = inject(MatDialog);
 
   constructor() {
     effect(() => {
@@ -64,7 +67,7 @@ export class RateTable implements AfterViewInit, OnInit {
   ngOnInit() {
     this.route.params.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       const type = params['type'] || 'A';
-      this.tableService.getTableA(type);
+      this.tableService.getTable(type);
     });
   }
 
@@ -81,5 +84,20 @@ export class RateTable implements AfterViewInit, OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  protected openHistory(rate: Rate) {
+    const tableType = this.route.snapshot.params['type'] || 'A';
+    this.tableService.getTableForCurrency(tableType, rate.code);
+
+    this.dialog.open(RateDialog, {
+      data: {
+        currency: rate.currency,
+        code: rate.code,
+        tableType: tableType,
+      },
+      width: '95%',
+      maxWidth: '500px',
+    });
   }
 }

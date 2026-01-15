@@ -9,3 +9,10 @@ table {
 .mat-elevation-z8 {
   width: 100%;
 }
+
+.clickable-row {
+  cursor: pointer;
+}
+.clickable-row:hover {
+  background-color: #b0d1cf;
+}

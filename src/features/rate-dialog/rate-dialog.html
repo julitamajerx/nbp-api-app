@@ -1,0 +1,24 @@
+<h2 mat-dialog-title>Historia {{ data.currency }}</h2>
+
+<mat-dialog-content>
+  <div class="chart-container">
+    <canvas #chartCanvas></canvas>
+  </div>
+
+  @if (tableService.currencyHistory(); as history) {
+    <div class="history-list">
+      @for (rate of history.rates; track rate.effectiveDate) {
+        <div class="rate-row">
+          <span class="date"><strong>{{ rate.effectiveDate | date: 'dd.MM.yyyy' }}</strong></span>
+          <span class="value">
+            {{ (rate.mid ?? (rate.bid && rate.ask ? (rate.bid + rate.ask) / 2 : 0)) | currency:'PLN ':'symbol':'1.4-4' }}
+          </span>
+        </div>
+      }
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Zamknij</button>
+</mat-dialog-actions>

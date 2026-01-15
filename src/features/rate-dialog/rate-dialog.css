@@ -1,0 +1,19 @@
+.chart-container {
+  position: relative;
+  height: 250px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.rate-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+@media (max-width: 600px) {
+  .chart-container {
+    height: 200px;
+  }
+}
