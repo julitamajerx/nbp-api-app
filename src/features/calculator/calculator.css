@@ -1,0 +1,29 @@
+.calc-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fields {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.result-card {
+  padding: 10px;
+}
+
+.result-card mat-card-title {
+}
+
+@media (max-width: 870px) {
+  .fields {
+    flex-direction: column;
+  }
+
+  .multiplay-cross {
+    margin-bottom: 10px;
+  }
+}

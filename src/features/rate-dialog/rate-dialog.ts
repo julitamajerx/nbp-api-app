@@ -1,4 +1,4 @@
-import { Component, inject, effect, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, inject, effect, ElementRef, ViewChild } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogTitle,

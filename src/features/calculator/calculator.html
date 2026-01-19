@@ -1,0 +1,49 @@
+<div class="calc-container">
+  <form [formGroup]="calculatorForm" (ngSubmit)="calculateCurrency()">
+    <div class="fields">
+      <mat-form-field>
+        <mat-label for="ammountPLN">Kwota PLN</mat-label>
+        <input matInput id="ammountPLN" formControlName="ammountPLN" />
+        @if (calculatorForm.get('ammountPLN')?.hasError('required')) {
+          <mat-error>Kwota jest wymagana</mat-error>
+        }
+        @if (calculatorForm.get('ammountPLN')?.hasError('min')) {
+          <mat-error>Kwota musi być dodatnia</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="multiplay-cross">
+        <mat-icon> close</mat-icon>
+      </div>
+
+      <mat-form-field>
+        <mat-label for="ammountCurrency">Wybierz walute</mat-label>
+        <mat-select
+          (selectionChange)="onCurrencyChange()"
+          id="ammountCurrency"
+          formControlName="ammountCurrency"
+        >
+          @for (currency of allCurrencies(); track $index) {
+            <mat-option [value]="currency">
+              {{ currency.code }} - {{ currency.currency }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (calculatorForm.get('ammountCurrency')?.hasError('required')) {
+          <mat-error>Wybierz walutę z listy</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <button type="submit" [disabled]="!calculatorForm.valid" matButton="filled">Oblicz</button>
+  </form>
+
+  @if (showResult) {
+    <mat-card class="result-card" appearance="outlined">
+      <mat-card-title>Wynik</mat-card-title>
+      <mat-card-content>
+        <h3>{{ result }}</h3>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

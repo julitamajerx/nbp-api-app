@@ -53,6 +53,23 @@
   visibility: hidden;
 }
 
+.sidebar-extra-links {
+  padding-top: 10px;
+}
+
+.sidebar-extra-links a {
+  color: black;
+  font-size: var(--mat-tree-node-text-size, var(--mat-sys-body-large-size));
+}
+
+.full-width-button {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
 @media (max-width: 870px) {
   .sidenav {
     width: 100%;

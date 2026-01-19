@@ -4,6 +4,8 @@ import { NbpTableResponse } from '../shared/interfaces/nbpTableResponse-interfac
 import { GET_NBP_TABLE, GET_NBP_TABLE_FOR_CURRENCY } from '../shared/constants/urls';
 import { CurrencyHistoryResponse } from '../shared/interfaces/currencyHistoryResponse-interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { forkJoin, map } from 'rxjs';
+import { CurrencyCalcItem } from '../shared/interfaces/currencyCalcItem-interface';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class TableService {
   public tableData = signal<NbpTableResponse[]>([]);
   public currencyHistory = signal<CurrencyHistoryResponse | null>(null);
+  public allCurrencies = signal<CurrencyCalcItem[]>([]);
 
   private http = inject(HttpClient);
   private snackBar = inject(MatSnackBar);
@@ -22,7 +25,7 @@ export class TableService {
       next: (data) => {
         this.tableData.set(data);
       },
-      error: (err) => this.showError('Nie udało się pobrać tabeli kursów.'),
+      error: () => this.showError('Nie udało się pobrać tabeli kursów.'),
     });
   }
 
@@ -33,8 +36,24 @@ export class TableService {
       next: (data) => {
         this.currencyHistory.set(data);
       },
-      error: (err) => this.showError(`Błąd podczas pobierania historii dla ${currency}.`),
+      error: () => this.showError(`Błąd podczas pobierania historii dla ${currency}.`),
     });
+  }
+
+  public getAllCurrencies() {
+    forkJoin({
+      tableA: this.http.get<NbpTableResponse[]>(GET_NBP_TABLE('A')),
+      tableB: this.http.get<NbpTableResponse[]>(GET_NBP_TABLE('B')),
+    })
+      .pipe(
+        map(({ tableA, tableB }) => {
+          return [
+            ...(tableA[0].rates as CurrencyCalcItem[]),
+            ...(tableB[0].rates as CurrencyCalcItem[]),
+          ];
+        }),
+      )
+      .subscribe((data) => this.allCurrencies.set(data));
   }
 
   private showError(message: string) {
