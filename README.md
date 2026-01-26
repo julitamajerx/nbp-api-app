@@ -1,59 +1,46 @@
-# NbpApiApp
+# NBP Currency Tracker & Calculator
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.10.
+Głównym celem projektu było zaprezentowanie moich umiejętności pracy z biblioteką **Angular Material**. Posiadam doświadczenie w pracy z innymi rozwiązaniami, takimi jak Tailwind CSS, Bootstrap oraz Telerik UI, dlatego zdecydowałam się poszerzyć swój warsztat o natywne rozwiązanie proponowane przez zespół Angulara.
 
-## Development server
+Wykorzystanie Angular Material:
 
-To start a local development server, run:
+- MatTable & MatPaginator:
 
-```bash
-ng serve
-```
+  - Obsługa dynamicznych tabel z funkcjami filtrowania, sortowania oraz paginacji danych.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+  - Implementacja search baru, który umożliwia filtrowanie walut po nazwie lub kodzie.
 
-## Code scaffolding
+  - Wbudowany mechanizm empty search – w przypadku braku wyników, użytkownik otrzymuje czytelny komunikat z możliwością szybkiego wyczyszczenia wyszukiwania.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- MatSideNav i MatTree:
 
-```bash
-ng generate component component-name
-```
+  - Dynamiczne menu boczne, służące do wygodnej nawigacji między różnymi typami tabel NBP (A, B, C) i kalkulatorem.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- MatDialog & Chart.js:
 
-```bash
-ng generate --help
-```
+  - Wykorzystanie dialogów do prezentowania szczegółowej historii kursów wybranej waluty.
 
-## Building
+  - Wizualizacja danych historycznych za pomocą interaktywnego wykresu liniowego stworzonego w bibliotece Chart.js.
 
-To build the project run:
+- MatFormField & Reactive Forms:
 
-```bash
-ng build
-```
+  - Obsługa kalkulatora walut z pełną walidacją formularzy.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- MatSpinner & Interceptor:
 
-## Running unit tests
+  - Globalny loader informujący o pobieraniu danych.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+  - Zastosowanie Interceptora z logiką opóźnienia, co pozwala uniknąć efektu migania spinnera przy bardzo szybkich odpowiedziach z API.
 
-```bash
-ng test
-```
+- MatSnackBar:
 
-## Running end-to-end tests
+  - Obsługa komunikatów o błędach (np. problemów z połączeniem z API) wyświetlanych w formie estetycznych powiadomień w prawym dolnym rogu ekranu.
 
-For end-to-end (e2e) testing, run:
+- Responsywność (RWD):
+  - Aplikacja została dostosowana do urządzeń mobilnych. Zastosowano elastyczne layouty, a boczna nawigacja (MatDrawer) na mniejszych ekranach zmienia tryb działania. Zamiast pojawiać się po lewej stronie, drawer po rozwinięciu zajmuje 100% szerokości ekranu, co znacznie poprawia wygodę korzystania z menu na małych wyświetlaczach.
+ 
+Dodatkowo w celu zachowania dobrych praktych TS i estetycznego wygladu kodu, dodalam Prettier i ESLint.
 
-```bash
-ng e2e
-```
+### Co wynioslam z projektu?
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Przy tworzeniu kalkulatora stanęłam przed problemem połączenia danych z dwóch osobnych endpointów. Rozwiązałam to za pomocą operatora **forkJoin**, co pozwoliło na sprawne zasilenie listy walut z różnych tabel NBP jednocześnie.
